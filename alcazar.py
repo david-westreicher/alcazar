@@ -45,19 +45,19 @@ def read(filename):
 # puzzle object -> boolean clauses
 def encode(puzzle):
 	'''
-	exactlyTwo({x_1, ... , x_n}) = 
+    exactlyTwo({x_1, ... , x_n}) = 
 
-	\  /			    /\
-	 \/   (x_i /\ x_j  /  \  -x_k ) = 
-	 i<j			  k!=i,j
+    \  /                /\
+     \/   (x_i /\ x_j  /  \  -x_k ) = 
+     i<j              k!=i,j
 	 
-	 \  /							   /\
-	 (\/ a_l) /\ (a_l -> (x_i /\ x_j  /  \  -x_k ) = 
-	 	 				 			  k!=i,j
+     \  /                              /\
+     (\/ a_l) /\ (a_l -> (x_i /\ x_j  /  \  -x_k ) = 
+                                     k!=i,j
 	 	 				 			  
-	 \  /							   			  /\
-	 (\/ a_l) /\ (-a_l \/ x_i) /\ (-a_l \/ x_j)  /  \  (-a_l \/ -x_k) ) 
-	 	 				 						k!=i,j
+     \  /                                         /\
+     (\/ a_l) /\ (-a_l \/ x_i) /\ (-a_l \/ x_j)  /  \  (-a_l \/ -x_k) ) 
+                                                k!=i,j
 	'''
 	#encoding of the exactly two constraint (converted to CNF with Wilson transform)
 	def exactlyTwo(variables,variableCoordMap):
