@@ -3,6 +3,7 @@ import subprocess
 import sys
 import os
 import tempfile
+import controller
 
 directions = [('R',[0,1]),('L',[0,-1]),('D',[1,0]),('U',[-1,0])]
 class puzzle(object):
@@ -148,3 +149,5 @@ if __name__ == "__main__":
 	decode(puzzle,assignments,variables)
 	print("SOLUTION")
 	print(puzzle)
+	controller.startGUI(puzzle)
+
