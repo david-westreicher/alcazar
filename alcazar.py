@@ -1,5 +1,6 @@
 import numpy as np
 import subprocess
+import sys
 
 directions = [('R',[0,1]),('L',[0,-1]),('D',[1,0]),('U',[-1,0])]
 class puzzle(object):
@@ -141,7 +142,7 @@ def decode(puzzle,assignments,variables):
 			puzzle.puzzlemap[coord[1]][coord[0]] = '|' if coord[1]%2==0 else '-'
 
 if __name__ == "__main__":
-	puzzle = read("sample3.puzzle")
+	puzzle = read(sys.argv[1])
 	clauses,variables = encode(puzzle)
 	assignments = solve(clauses,variables)
 	decode(puzzle,assignments,variables)
