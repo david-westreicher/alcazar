@@ -6,7 +6,7 @@ An [alcazar] solver using SAT-techniques
 Requirements
 ----
 * python 2.7
-* pyside for the gui (the gui/gui.ui can be converted to the src/gui.py with ```pyside-uic gui/gui.ui > src/gui.py```)
+* [pyside] and pyside-uic for the gui (the gui/gui.ui can be converted to the src/gui.py with ```pyside-uic gui/gui.ui > src/gui.py```)
 * [minisat] should be in your environment ```minisat test.dimacs```
 
 
@@ -19,7 +19,7 @@ Usage
 --------------
 
 ```
-python alcazar.py samples/sample1.puzzle
+python src/alcazar.py samples/sample1.puzzle
 
 3x4 puzzle
 x x x x x x x 
@@ -73,6 +73,7 @@ MIT
 **Free Software, Hell Yeah!**
 
 [minisat]:http://minisat.se
+[pyside]:http://qt-project.org/wiki/pyside
 [alcazar]:http://www.theincrediblecompany.com/alcazar-1/
 [SAT]:http://en.wikipedia.org/wiki/Boolean_satisfiability_problem
 [CNF]: http://en.wikipedia.org/wiki/Conjunctive_normal_form
