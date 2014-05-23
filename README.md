@@ -50,6 +50,13 @@ Puzzle-Format
 ```space``` represent possible lines,
 ```x``` represent walls
 
+TODO
+-----------
+* fix one loop problem (find loops and add the negated form to the formula)
+* helper variables should be handled nicer
+* show error if formula UNSAT
+* gui
+
 Version
 ----
 
