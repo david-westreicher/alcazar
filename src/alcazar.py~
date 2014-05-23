@@ -1,6 +1,8 @@
 import numpy as np
 import subprocess
 import sys
+import os
+import tempfile
 
 directions = [('R',[0,1]),('L',[0,-1]),('D',[1,0]),('U',[-1,0])]
 class puzzle(object):
@@ -115,18 +117,20 @@ def encode(puzzle):
 
 # boolean clauses -> assignment
 def solve(clauses,variablenum):
-	f = open("tmp.sat","w")
+	f = tempfile.NamedTemporaryFile(mode = "w", delete = False)
 	f.write("p cnf "+str(variablenum)+" "+str(len(clauses))+"\n")
 	for clause in clauses:
 		for el in clause:
 			f.write(str(el)+" ")
 		f.write("0\n")
 	f.close()
-	subprocess.call(["minisat", "tmp.sat","out.ass"],stdout=subprocess.PIPE)
-	f = open("out.ass")
-	lines = f.read().splitlines()
+	f2 = tempfile.NamedTemporaryFile(mode = "r")
+	subprocess.call(["minisat", f.name,f2.name],stdout=subprocess.PIPE)
+	print(f2.name)
+	lines = f2.read().splitlines()
 	asss = [int(el) for el in lines[1].split(" ")]
-	f.close()
+	f2.close()
+	os.remove(f.name)
 	return asss[:-1]
 
 #assignment -> solved puzzle
