@@ -6,6 +6,7 @@ An [alcazar] solver using SAT-techniques
 Requirements
 ----
 * python 2.7
+* pyside for the gui (the gui/gui.ui can be converted to the src/gui.py with ```pyside-uic gui/gui.ui > src/gui.py```)
 * [minisat] should be in your environment ```minisat test.dimacs```
 
 
@@ -53,9 +54,10 @@ Puzzle-Format
 TODO
 -----------
 * fix one loop problem (find loops and add the negated form to the formula)
-* helper variables should be handled nicer
 * show error if formula UNSAT
-* gui
+* dynamic drawing for gui
+* set size in gui
+* load/save option in menu bar
 
 Version
 ----

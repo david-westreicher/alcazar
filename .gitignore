@@ -1,3 +1,4 @@
 src/*.pyc
 src/*~
 src/gui.py
+*~
