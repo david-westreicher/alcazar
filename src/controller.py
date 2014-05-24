@@ -174,10 +174,10 @@ class ControlMainWindow(QtGui.QMainWindow):
 	def openFile(self):
 		dialog = QtGui.QFileDialog(self)
 		dialog.setFileMode(QtGui.QFileDialog.AnyFile)
-		dialog.exec_()
-		filename = str(dialog.selectedFiles()[0])
-		newpuzzle = alcazar.read(filename)
-		self.gamefield.setPuzzle(newpuzzle)
+		if dialog.exec_():
+			filename = str(dialog.selectedFiles()[0])
+			newpuzzle = alcazar.read(filename)
+			self.gamefield.setPuzzle(newpuzzle)
 		
 	def setupEvents(self):
 		self.ui.actionAddRemoveLines.triggered.connect(self.addremoveline)
