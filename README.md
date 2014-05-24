@@ -1,4 +1,4 @@
-alcaSAT
+AlcaSAT
 =========
 
 An [alcazar] solver using SAT-techniques
@@ -59,8 +59,6 @@ Puzzle-Format
 TODO
 -----------
 * fix one loop problem (find loops and add the negated form to the formula)
-* set size in gui
-* load/save option in menu bar
 
 Version
 ----

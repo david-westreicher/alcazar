@@ -43,7 +43,7 @@ background-color: rgb(85, 255, 255);</string>
     <string>toolBar</string>
    </property>
    <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
+    <enum>LeftToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
     <bool>false</bool>
@@ -63,6 +63,9 @@ background-color: rgb(85, 255, 255);</string>
    <property name="text">
     <string>&amp;Open</string>
    </property>
+   <property name="toolTip">
+    <string>Open a puzzle file</string>
+   </property>
   </action>
   <action name="actionAddRemoveLines">
    <property name="checkable">
@@ -77,7 +80,7 @@ background-color: rgb(85, 255, 255);</string>
     <string>Add/RemoveLine</string>
    </property>
    <property name="toolTip">
-    <string>Draw or remove lines of the gamefield</string>
+    <string>Draw or remove lines of the puzzle</string>
    </property>
   </action>
   <action name="actionSave">
@@ -89,7 +92,7 @@ background-color: rgb(85, 255, 255);</string>
     <string>save</string>
    </property>
    <property name="toolTip">
-    <string>Save the current puzzle</string>
+    <string>Save the current puzzle to a file</string>
    </property>
   </action>
   <action name="actionNew">
@@ -100,6 +103,9 @@ background-color: rgb(85, 255, 255);</string>
    </property>
    <property name="text">
     <string>new</string>
+   </property>
+   <property name="toolTip">
+    <string>Create a new empty puzzle</string>
    </property>
   </action>
  </widget>
