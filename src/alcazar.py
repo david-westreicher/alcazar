@@ -25,7 +25,8 @@ class puzzle(object):
 		for d in directions:
 			r = realCoord.copy()
 			r += d[1]
-			if(self.puzzlemap[r[0]][r[1]]==' '):
+			cellVal = self.puzzlemap[r[0]][r[1]]
+			if(cellVal==' ' or cellVal=='|' or cellVal=='-'):
 				neighs.append((d[0],[r[1],r[0]]))
 		return neighs
 
@@ -96,7 +97,7 @@ def encode(puzzle):
 	#build variable to coord maps and find exits
 	for j,line in enumerate(puzzle.puzzlemap):
 		for i,el in enumerate(line):
-			if(el==" "):
+			if(el==" " or el=="|" or el=="-"):
 				variableCoordMap.append([i,j])
 				coordVariableMap[coordToVar([i,j],puzzle)] = currentVariable
 				if(j==0 or i==0 or j==len(puzzle.puzzlemap)-1 or i==len(puzzle.puzzlemap[0])-1):
@@ -138,15 +139,22 @@ def decode(puzzle,assignments,variables):
 	for ass in assignments:
 		index = abs(ass)-1
 		coord = variables[index]
-		if(type(coord) is list and ass>0):
-			puzzle.puzzlemap[coord[1]][coord[0]] = '|' if coord[1]%2==0 else '-'
+		if(type(coord) is list):
+			if ass>0:
+				puzzle.puzzlemap[coord[1]][coord[0]] = '|' if coord[1]%2==0 else '-'
+			else:
+				puzzle.puzzlemap[coord[1]][coord[0]] = ' '
+				
+
+def solvePuzzle(puzzle):
+	clauses,variables = encode(puzzle)
+	assignments = solve(clauses,len(variables))
+	decode(puzzle,assignments,variables)
 
 if __name__ == "__main__":
 	puzzle = read(sys.argv[1])
 	print(puzzle)
-	clauses,variables = encode(puzzle)
-	assignments = solve(clauses,len(variables))
-	decode(puzzle,assignments,variables)
+	solvePuzzle(puzzle)
 	print("SOLUTION")
 	print(puzzle)
 	controller.startGUI(puzzle)

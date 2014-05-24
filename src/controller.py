@@ -1,5 +1,6 @@
 import gui
 import random
+import alcazar
 import numpy as np
 from PySide import QtCore, QtGui
 
@@ -11,6 +12,7 @@ class Example(QtGui.QWidget):
 		self.WALL_SIZE = 10
 		self.SOLUTION_SIZE = 25
 		self.mouseDown = False
+		self.deleteActivated = True
 	def paintEvent(self, event):
 		qp = QtGui.QPainter()
 		qp.begin(self)
@@ -18,20 +20,36 @@ class Example(QtGui.QWidget):
 		qp.end()
 	def mousePressEvent(self,event):
 		self.mouseDown = True
-		self.click(np.asarray([event.pos().x(),event.pos().y()]))
-		self.update()
-	def click(self,clickpos):
-		translate = self.getTranslation()
-		clickpos-=translate
-		clickpos = (clickpos/self.CELL_SIZE)
-		self.puzzle.puzzlemap[0][1] = ' '
-		print(clickpos)
+		self.updateClick(np.asarray([event.pos().x(),event.pos().y()]))
+	def updateClick(self,clickpos):
+		def flip(x,y):
+			if(x<len(self.puzzle.puzzlemap) and y<len(self.puzzle.puzzlemap[0])):
+				val = self.puzzle.puzzlemap[x][y]
+				self.puzzle.puzzlemap[x][y] = ' ' if self.deleteActivated else 'x'
+				return True
+			return False
+		clickpos =(clickpos-self.getTranslation())/float(self.CELL_SIZE)+0.2
+		change = False
+		intcolumn = int(clickpos[0])
+		column = clickpos[0]-intcolumn
+		introw = int(clickpos[1])
+		row = clickpos[1]-introw
+		if(introw>=0 and introw<=self.puzzle.height and intcolumn>=0 and intcolumn<=self.puzzle.width):
+			#horizontal
+			if(row<0.5 and column>0.5):
+				change = flip(introw*2,intcolumn*2+1)
+			#vertical
+			if(column<0.5 and row>0.5):
+				change = flip(introw*2+1,intcolumn*2)
+		if change:
+			alcazar.solvePuzzle(self.puzzle)
+			self.update()
 	def mouseReleaseEvent(self,event):
 		self.mouseDown = False
 	def mouseMoveEvent(self,event):
-		pass
-		#if(self.mouseDown):
-		#	print(str(event.pos()))
+		#pass
+		if(self.mouseDown):
+			self.updateClick(np.asarray([event.pos().x(),event.pos().y()]))
 	def getTranslation(self):
 		size = self.size()
 		maxsize = [self.puzzle.width*self.CELL_SIZE,self.puzzle.height*self.CELL_SIZE]
