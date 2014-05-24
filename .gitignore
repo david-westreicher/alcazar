@@ -2,4 +2,5 @@ src/*.pyc
 src/*~
 src/gui.py
 src/resources_rc.py
+src/newdialog.py
 *~

@@ -1,4 +1,5 @@
 import gui
+import newdialog
 import random
 import alcazar
 import numpy as np
@@ -128,23 +129,22 @@ class GameField(QtGui.QWidget):
 					y+=translate[1]
 					qp.fillRect(x,y,self.SOLUTION_SIZE,self.CELL_SIZE,QtCore.Qt.red)
 
+	
+def generateEmptyPuzzle(sizes):
+	puzzle = alcazar.puzzle([[' ' for i in range(sizes[0]*2+1)] for j in range(sizes[1]*2+1)],sizes[0],sizes[1])
+	for j,line in enumerate(puzzle.puzzlemap):
+		for i,el in enumerate(line):
+			if(j%2==1 and i%2==1):
+				puzzle.puzzlemap[j][i]='0'
+			if(j%2==0 and i%2==0):
+				puzzle.puzzlemap[j][i]='x'
+	return puzzle
+
 class Model(object):
-	def __init__(self,puzzle=None):
+	def __init__(self,puzzle=None, sizes=(4,5)):
 		if(puzzle is None):
-			puzzle = self.generateEmptyPuzzle()
+			puzzle = generateEmptyPuzzle(sizes)
 		self.puzzle = puzzle
-	
-	def generateEmptyPuzzle(self):
-		sizes = (4,5)
-		puzzle = alcazar.puzzle([[' ' for i in range(sizes[0]*2+1)] for j in range(sizes[1]*2+1)],sizes[0],sizes[1])
-		for j,line in enumerate(puzzle.puzzlemap):
-			for i,el in enumerate(line):
-				if(j%2==1 and i%2==1):
-					puzzle.puzzlemap[j][i]='0'
-				if(j%2==0 and i%2==0):
-					puzzle.puzzlemap[j][i]='x'
-		return puzzle
-	
 
 class ControlMainWindow(QtGui.QMainWindow):
 	def __init__(self, model, parent=None):
@@ -178,12 +178,20 @@ class ControlMainWindow(QtGui.QMainWindow):
 			filename = str(dialog.selectedFiles()[0])
 			newpuzzle = alcazar.read(filename)
 			self.gamefield.setPuzzle(newpuzzle)
+	def newPuzzle(self):
+		dialog =  QtGui.QDialog(self)
+		myDialog = newdialog.Ui_Dialog()
+		myDialog.setupUi(dialog)
+		if dialog.exec_():
+			width = myDialog.width.value()
+			height = myDialog.height.value()
+			newpuzzle = generateEmptyPuzzle((width,height))
+			self.gamefield.setPuzzle(newpuzzle)
 		
 	def setupEvents(self):
 		self.ui.actionAddRemoveLines.triggered.connect(self.addremoveline)
 		self.ui.action_Open.triggered.connect(self.openFile)
-		#self.ui.previewButton.clicked.connect(self.updateActiveCamTable)
-		#self.ui.downloadButton.clicked.connect(self.download)
+		self.ui.actionNew.triggered.connect(self.newPuzzle)
 		
 def startGUI(puzzle=None):
 	app = QtGui.QApplication([])  

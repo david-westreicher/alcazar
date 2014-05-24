@@ -1,13 +1,14 @@
-SHELL = /bin/sh
 PYSIDEUIC = pyside-uic
 PYRCC = pyrcc4
-UIS = gui/gui.ui
 RESOURCES = gui/resources.qrc
-SOURCES = src/gui.py src/resources_rc.py
+SOURCES = src/gui.py src/resources_rc.py src/newdialog.py
 PYCS = $(SOURCES:.py=.pyc)
- 
-all:
-	$(PYSIDEUIC) $(UIS) -o src/gui.py
+UIPYS = src/gui.py src/newdialog.py
+
+src/%.py: gui/%.ui
+	$(PYSIDEUIC) $< -o $@
+
+all: $(UIPYS)
 	$(PYRCC) $(RESOURCES) -o src/resources_rc.py
  
 clean:
