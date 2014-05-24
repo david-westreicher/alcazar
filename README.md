@@ -21,6 +21,7 @@ Usage
 * Command Line:
 
 ```
+make
 python src/alcazar.py samples/sample1.puzzle
 
 3x4 puzzle
@@ -46,7 +47,7 @@ x x x x x x x
 
 
 ```
-* GUI
+
 ![ScreenShot](http://david-westreicher.github.io/alcazar.png)
 
 Puzzle-Format
