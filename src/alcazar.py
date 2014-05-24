@@ -2,6 +2,7 @@ import numpy as np
 import subprocess
 import sys
 import os
+import time
 import tempfile
 import controller
 
@@ -51,6 +52,9 @@ def read(filename):
 	height = height/2
 	return puzzle(puzzlemap,width,height)
 	
+def coordToVar(coord,puzzle):
+	return coord[0]+coord[1]*(puzzle.width*2+1)
+	
 # puzzle object -> boolean clauses
 def encode(puzzle):
 	'''
@@ -90,9 +94,6 @@ def encode(puzzle):
 							allclauses.append([-helperVar,-variables[k]])
 			allclauses.append(megaclause)
 			return allclauses
-			
-	def coordToVar(coord,puzzle):
-		return coord[0]+coord[1]*(puzzle.width*2+1)
 		
 	clauses = []
 	coordVariableMap = {}
@@ -120,7 +121,7 @@ def encode(puzzle):
 	for clause in exactlyTwo(exits,variableCoordMap):
 		clauses.append(clause)
 		
-	return clauses, variableCoordMap
+	return clauses, variableCoordMap, coordVariableMap
 
 # boolean clauses -> assignment
 def solve(clauses,variablenum):
@@ -132,7 +133,7 @@ def solve(clauses,variablenum):
 		f.write("0\n")
 	f.close()
 	f2 = tempfile.NamedTemporaryFile(mode = "r")
-	subprocess.call(["minisat", f.name,f2.name],stdout=subprocess.PIPE)
+	subprocess.call(["minisat", f.name,f2.name])#,stdout=subprocess.PIPE)
 	lines = f2.read().splitlines()
 	asss = [int(el) for el in lines[1].split(" ")]
 	f2.close()
@@ -149,12 +150,61 @@ def decode(puzzle,assignments,variables):
 				puzzle.puzzlemap[coord[1]][coord[0]] = '|' if coord[1]%2==0 else '-'
 			else:
 				puzzle.puzzlemap[coord[1]][coord[0]] = ' '
-				
+
+def findLoops(puzzle):
+	def findLoopStart(puzzle,bitmask):
+		for i in range(puzzle.width*2+1):
+			for j in range(puzzle.height*2+1):
+				val = puzzle.puzzlemap[j][i]
+				if((not bitmask[i][j]) and (val=='-' or val=='|')):
+					return np.asarray([i,j])
+	def getNext(start,puzzle,bitmask):
+		for (_,d) in directions:
+			tmp = start+d
+			if(tmp[0]>=0 and tmp[0]<puzzle.width*2+1 and tmp[1]>=0 and tmp[1]<puzzle.height*2+1):
+				val = puzzle.puzzlemap[tmp[1]][tmp[0]]
+				if((not bitmask[tmp[0]][tmp[1]]) and (val=='0' or val=='-' or val=='|')):
+					return tmp
+		return None
+	loops = []
+	bitmask = [[False for i in range(puzzle.height*2+1)] for j in range(puzzle.width*2+1)]
+	while(True):
+		path = []
+		current = findLoopStart(puzzle,bitmask)
+		if(current is None):
+			break
+		path.append(current)
+		bitmask[current[0]][current[1]]=True
+		while(True):
+			current = getNext(current,puzzle,bitmask)
+			if(current is None):
+				break
+			else:
+				bitmask[current[0]][current[1]]=True
+				path.append(current)
+		#check if loop (path ends not on border)
+		if(path[-1][0]>0 and path[-1][1]>0 and path[-1][0]<puzzle.width*2 and path[-1][1]<puzzle.height*2):
+			loops.append([el for i,el in enumerate(path) if i%2==0])
+	return loops
 
 def solvePuzzle(puzzle):
-	clauses,variables = encode(puzzle)
+	clauses,variables,coordVariableMap = encode(puzzle)
 	assignments = solve(clauses,len(variables))
 	decode(puzzle,assignments,variables)
+	hasLoops = True
+	iterations = 0
+	startTime = time.time()
+	while(hasLoops):
+		iterations+=1
+		loops = findLoops(puzzle)
+		if(len(loops)==0):
+			hasLoops = False
+		else:
+			for loop in loops:
+				clauses.append([-coordVariableMap[coordToVar(el,puzzle)] for el in loop])
+			assignments = solve(clauses,len(variables))
+			decode(puzzle,assignments,variables)
+	print iterations," iterations with hybrid solver ",(time.time()-startTime)," sec"
 
 if __name__ == "__main__":
 	if(len(sys.argv)>1):

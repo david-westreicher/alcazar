@@ -2,6 +2,7 @@ import gui
 import newdialog
 import random
 import alcazar
+import sys
 import numpy as np
 from PySide import QtCore, QtGui
 
@@ -63,6 +64,7 @@ class GameField(QtGui.QWidget):
 			alcazar.solvePuzzle(self.puzzle)
 		except:
 			#print("Can't solve this puzzle")
+			#print "Unexpected error:", [el for el in sys.exc_info()]
 			self.puzzle.clearSolution()
 		self.update()
 	def setPuzzle(self, newpuzzle):
@@ -141,7 +143,7 @@ def generateEmptyPuzzle(sizes):
 	return puzzle
 
 class Model(object):
-	def __init__(self,puzzle=None, sizes=(4,5)):
+	def __init__(self,puzzle=None, sizes=(3,3)):
 		if(puzzle is None):
 			puzzle = generateEmptyPuzzle(sizes)
 		self.puzzle = puzzle
