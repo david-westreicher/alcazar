@@ -4,9 +4,9 @@ import alcazar
 import numpy as np
 from PySide import QtCore, QtGui
 
-class Example(QtGui.QWidget):
+class GameField(QtGui.QWidget):
 	def __init__(self,puzzle):
-		super(Example, self).__init__()
+		super(GameField, self).__init__()
 		self.puzzle = puzzle
 		self.CELL_SIZE = 50
 		self.WALL_SIZE = 10
@@ -42,7 +42,11 @@ class Example(QtGui.QWidget):
 			if(column<0.5 and row>0.5):
 				change = flip(introw*2+1,intcolumn*2)
 		if change:
-			alcazar.solvePuzzle(self.puzzle)
+			try:
+				alcazar.solvePuzzle(self.puzzle)
+			except:
+				#print("Can't solve this puzzle")
+				self.puzzle.clearSolution()
 			self.update()
 	def mouseReleaseEvent(self,event):
 		self.mouseDown = False
@@ -130,20 +134,24 @@ class ControlMainWindow(QtGui.QMainWindow):
 		self.setupEvents()
 
 	def addDrawingRect(self):
-		widget = Example(self.model.puzzle)
-		widget.setObjectName("widget")
+		gf = GameField(self.model.puzzle)
+		gf.setObjectName("gf")
 		self.ui.horizontalLayout.removeWidget(self.ui.placeholder)
 		self.ui.placeholder.setParent(None)
 		sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Expanding)
 		sizePolicy.setHorizontalStretch(0)
 		sizePolicy.setVerticalStretch(0)
-		sizePolicy.setHeightForWidth(widget.sizePolicy().hasHeightForWidth())
-		widget.setSizePolicy(sizePolicy)
-		self.ui.horizontalLayout.insertWidget(0,widget)
+		sizePolicy.setHeightForWidth(gf.sizePolicy().hasHeightForWidth())
+		gf.setSizePolicy(sizePolicy)
+		self.ui.horizontalLayout.insertWidget(0,gf)
 		self.ui.horizontalLayout.setStretch(0, 4)
-        
+		self.gamefield = gf
+
+	def addremoveline(self):
+		self.gamefield.deleteActivated = not self.gamefield.deleteActivated
+
 	def setupEvents(self):
-		pass
+		self.ui.actionAddRemoveLines.triggered.connect(self.addremoveline)
 		#self.ui.previewButton.clicked.connect(self.updateActiveCamTable)
 		#self.ui.downloadButton.clicked.connect(self.download)
 		

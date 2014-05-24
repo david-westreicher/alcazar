@@ -11,12 +11,12 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>AlcaSAT</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="4,1">
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="4">
       <property name="sizeConstraint">
        <enum>QLayout::SetMaximumSize</enum>
       </property>
@@ -34,35 +34,10 @@ background-color: rgb(85, 255, 255);</string>
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QPushButton" name="pushButton">
-        <property name="text">
-         <string>Solve</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>587</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menu_File">
-    <property name="title">
-     <string>&amp;File</string>
-    </property>
-    <addaction name="action_Open"/>
-   </widget>
-   <addaction name="menu_File"/>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
@@ -73,9 +48,18 @@ background-color: rgb(85, 255, 255);</string>
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="action_Open"/>
+   <addaction name="actionNew"/>
+   <addaction name="actionSave"/>
+   <addaction name="separator"/>
    <addaction name="actionAddRemoveLines"/>
   </widget>
   <action name="action_Open">
+   <property name="icon">
+    <iconset>
+     <normalon>:/png/images/open.png</normalon>
+    </iconset>
+   </property>
    <property name="text">
     <string>&amp;Open</string>
    </property>
@@ -94,6 +78,28 @@ background-color: rgb(85, 255, 255);</string>
    </property>
    <property name="toolTip">
     <string>Draw or remove lines of the gamefield</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/png/images/save.png</normaloff>:/png/images/save.png</iconset>
+   </property>
+   <property name="text">
+    <string>save</string>
+   </property>
+   <property name="toolTip">
+    <string>Save the current puzzle</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="icon">
+    <iconset>
+     <normalon>:/png/images/new.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>new</string>
    </property>
   </action>
  </widget>

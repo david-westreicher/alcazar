@@ -29,6 +29,11 @@ class puzzle(object):
 			if(cellVal==' ' or cellVal=='|' or cellVal=='-'):
 				neighs.append((d[0],[r[1],r[0]]))
 		return neighs
+	def clearSolution(self):
+		for j,line in enumerate(self.puzzlemap):
+			for i,el in enumerate(line):
+				if(el=="|" or el=="-"):
+					self.puzzlemap[j][i] = ' '
 
 # *.puzzle -> puzzle object
 def read(filename):

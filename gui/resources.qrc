@@ -1,6 +1,9 @@
 <RCC>
   <qresource prefix="png">
     <file>images/clear.png</file>
+    <file>images/new.png</file>
+    <file>images/open.png</file>
     <file>images/pen.png</file>
+    <file>images/save.png</file>
   </qresource>
 </RCC>
