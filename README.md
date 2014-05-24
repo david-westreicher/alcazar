@@ -1,4 +1,4 @@
-alcazar-SAT
+alcaSAT
 =========
 
 An [alcazar] solver using SAT-techniques
@@ -7,6 +7,7 @@ Requirements
 ----
 * python 2.7
 * [pyside] and pyside-uic for the gui (the gui/gui.ui can be converted to the src/gui.py with ```pyside-uic gui/gui.ui > src/gui.py```)
+* pyrcc4 to convert the *.qrc file to a resource.py file (```apt-get install pyqt4-dev-tools```) 
 * [minisat] should be in your environment ```minisat test.dimacs```
 
 
@@ -17,6 +18,7 @@ The SAT-solver finds assignments, which lets the formula evaluate to TRUE. These
 
 Usage
 --------------
+* Command Line:
 
 ```
 python src/alcazar.py samples/sample1.puzzle
@@ -44,6 +46,8 @@ x x x x x x x
 
 
 ```
+* GUI
+![ScreenShot](http://david-westreicher.github.io/alcazar.png)
 
 Puzzle-Format
 -----------
@@ -54,8 +58,6 @@ Puzzle-Format
 TODO
 -----------
 * fix one loop problem (find loops and add the negated form to the formula)
-* show error if formula UNSAT
-* dynamic drawing for gui
 * set size in gui
 * load/save option in menu bar
 
