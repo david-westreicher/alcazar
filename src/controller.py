@@ -187,11 +187,23 @@ class ControlMainWindow(QtGui.QMainWindow):
 			height = myDialog.height.value()
 			newpuzzle = generateEmptyPuzzle((width,height))
 			self.gamefield.setPuzzle(newpuzzle)
+	def savePuzzle(self):
+		dialog = QtGui.QFileDialog(self)
+		dialog.setFileMode(QtGui.QFileDialog.AnyFile)
+		if dialog.exec_():
+			filename = str(dialog.selectedFiles()[0])
+			f = open(filename,'w')
+			for line in self.gamefield.puzzle.puzzlemap:
+				newline = ''.join(line)
+				f.write(newline+"\n")
+			f.close()
+			print("saving to "+filename)
 		
 	def setupEvents(self):
 		self.ui.actionAddRemoveLines.triggered.connect(self.addremoveline)
 		self.ui.action_Open.triggered.connect(self.openFile)
 		self.ui.actionNew.triggered.connect(self.newPuzzle)
+		self.ui.actionSave.triggered.connect(self.savePuzzle)
 		
 def startGUI(puzzle=None):
 	app = QtGui.QApplication([])  

@@ -1,9 +1,9 @@
 PYSIDEUIC = pyside-uic
 PYRCC = pyrcc4
 RESOURCES = gui/resources.qrc
-SOURCES = src/gui.py src/resources_rc.py src/newdialog.py
 PYCS = $(SOURCES:.py=.pyc)
 UIPYS = src/gui.py src/newdialog.py
+SOURCES = $(UIPYS) src/resources_rc.py
 
 src/%.py: gui/%.ui
 	$(PYSIDEUIC) $< -o $@
