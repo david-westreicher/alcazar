@@ -157,10 +157,12 @@ def solvePuzzle(puzzle):
 	decode(puzzle,assignments,variables)
 
 if __name__ == "__main__":
-	puzzle = read(sys.argv[1])
-	print(puzzle)
-	solvePuzzle(puzzle)
-	print("SOLUTION")
-	print(puzzle)
-	controller.startGUI(puzzle)
-
+	if(len(sys.argv)>1):
+		puzzle = read(sys.argv[1])
+		print(puzzle)
+		solvePuzzle(puzzle)
+		print("SOLUTION")
+		print(puzzle)
+	else:
+		controller.startGUI()
+		

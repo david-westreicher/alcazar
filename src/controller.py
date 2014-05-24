@@ -13,6 +13,8 @@ class GameField(QtGui.QWidget):
 		self.SOLUTION_SIZE = 25
 		self.mouseDown = False
 		self.deleteActivated = True
+		self.solvePuzzle()
+		
 	def paintEvent(self, event):
 		qp = QtGui.QPainter()
 		qp.begin(self)
@@ -21,6 +23,12 @@ class GameField(QtGui.QWidget):
 	def mousePressEvent(self,event):
 		self.mouseDown = True
 		self.updateClick(np.asarray([event.pos().x(),event.pos().y()]))
+	def mouseReleaseEvent(self,event):
+		self.mouseDown = False
+	def mouseMoveEvent(self,event):
+		if(self.mouseDown):
+			self.updateClick(np.asarray([event.pos().x(),event.pos().y()]))
+			
 	def updateClick(self,clickpos):
 		def flip(x,y):
 			if(x<len(self.puzzle.puzzlemap) and y<len(self.puzzle.puzzlemap[0])):
@@ -42,23 +50,24 @@ class GameField(QtGui.QWidget):
 			if(column<0.5 and row>0.5):
 				change = flip(introw*2+1,intcolumn*2)
 		if change:
-			try:
-				alcazar.solvePuzzle(self.puzzle)
-			except:
-				#print("Can't solve this puzzle")
-				self.puzzle.clearSolution()
-			self.update()
-	def mouseReleaseEvent(self,event):
-		self.mouseDown = False
-	def mouseMoveEvent(self,event):
-		#pass
-		if(self.mouseDown):
-			self.updateClick(np.asarray([event.pos().x(),event.pos().y()]))
+			self.solvePuzzle()
 	def getTranslation(self):
 		size = self.size()
 		maxsize = [self.puzzle.width*self.CELL_SIZE,self.puzzle.height*self.CELL_SIZE]
 		translate = [(size.width()-maxsize[0])/2,(size.height()-maxsize[1])/2]
 		return translate
+		
+	def solvePuzzle(self):
+		try:
+			alcazar.solvePuzzle(self.puzzle)
+		except:
+			#print("Can't solve this puzzle")
+			self.puzzle.clearSolution()
+		self.update()
+	def setPuzzle(self, newpuzzle):
+		self.puzzle = newpuzzle
+		self.solvePuzzle()
+		
 	def drawPuzzle(self, event, qp):
 		qp.setPen(QtCore.Qt.black)
 		translate = self.getTranslation()
@@ -121,7 +130,20 @@ class GameField(QtGui.QWidget):
 
 class Model(object):
 	def __init__(self,puzzle=None):
+		if(puzzle is None):
+			puzzle = self.generateEmptyPuzzle()
 		self.puzzle = puzzle
+	
+	def generateEmptyPuzzle(self):
+		sizes = (4,5)
+		puzzle = alcazar.puzzle([[' ' for i in range(sizes[0]*2+1)] for j in range(sizes[1]*2+1)],sizes[0],sizes[1])
+		for j,line in enumerate(puzzle.puzzlemap):
+			for i,el in enumerate(line):
+				if(j%2==1 and i%2==1):
+					puzzle.puzzlemap[j][i]='0'
+				if(j%2==0 and i%2==0):
+					puzzle.puzzlemap[j][i]='x'
+		return puzzle
 	
 
 class ControlMainWindow(QtGui.QMainWindow):
@@ -149,9 +171,17 @@ class ControlMainWindow(QtGui.QMainWindow):
 
 	def addremoveline(self):
 		self.gamefield.deleteActivated = not self.gamefield.deleteActivated
-
+	def openFile(self):
+		dialog = QtGui.QFileDialog(self)
+		dialog.setFileMode(QtGui.QFileDialog.AnyFile)
+		dialog.exec_()
+		filename = str(dialog.selectedFiles()[0])
+		newpuzzle = alcazar.read(filename)
+		self.gamefield.setPuzzle(newpuzzle)
+		
 	def setupEvents(self):
 		self.ui.actionAddRemoveLines.triggered.connect(self.addremoveline)
+		self.ui.action_Open.triggered.connect(self.openFile)
 		#self.ui.previewButton.clicked.connect(self.updateActiveCamTable)
 		#self.ui.downloadButton.clicked.connect(self.download)
 		
