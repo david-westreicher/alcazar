@@ -48,7 +48,7 @@ x x x x x x x
 
 ```
 
-![ScreenShot](http://david-westreicher.github.io/alcazar.png)
+![ScreenShot](https://david-westreicher.github.io/alcazar/alcazar.png)
 
 Puzzle-Format
 -----------
