@@ -58,7 +58,7 @@ Puzzle-Format
 
 TODO
 -----------
-* fix one loop problem (find loops and add the negated form to the formula)
+* use threading to get instant feedback for big puzzles
 
 Version
 ----

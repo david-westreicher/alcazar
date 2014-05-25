@@ -133,7 +133,7 @@ def solve(clauses,variablenum):
 		f.write("0\n")
 	f.close()
 	f2 = tempfile.NamedTemporaryFile(mode = "r")
-	subprocess.call(["minisat", f.name,f2.name])#,stdout=subprocess.PIPE)
+	subprocess.call(["minisat", f.name,f2.name],stdout=subprocess.PIPE)
 	lines = f2.read().splitlines()
 	asss = [int(el) for el in lines[1].split(" ")]
 	f2.close()
