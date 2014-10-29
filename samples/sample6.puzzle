@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 xxxxxxxxxxx x
 x0-0-0-0 0-0 
 x|x x x|x|x|x
@@ -9,3 +10,26 @@ x0 0-0 0 0-0x
 x|x x|x|x x|x
 x0-0-0x0x0-0x
 xxxxxxx|x|xxx
+=======
+xxxxxxxxxxxxxxxxxxxxx
+x0-0-0-0-0-0 0-0 0-0x
+x|x x x x x|x|x|x|x|x
+x0 0-0-0-0 0-0 0-0 0 
+x|x|x xxx|x x x x x|x
+x0x0 0-0x0-0-0-0-0 0x
+x|x|x|x|x xxxxx x|x|x
+x0 0-0 0 0-0-0-0 0-0x
+x|xxxxx|x|x x x|x x x
+ 0-0-0x0-0 0-0 0-0-0x
+x x x|xxxxx|x|xxxxx|x
+-0-0 0 0-0 0x0 0-0 0 
+xxx|x|x|x|x|x|x|x|x|x
+x0-0 0-0x0x0 0-0 0-0x
+x|x x x x|x|x xxx x x
+x0-0 0-0-0 0 0-0-0-0 
+x x|x|x xxx|x|x x x|x
+ 0-0 0 0-0-0 0-0 0-0x
+x|x x|x|x xxx x|x|x x
+x0-0-0 0-0-0-0-0 0-0 
+xxxxxxxxxxxxxxxxxxx|x
+>>>>>>> 216460654b055af0a1b119e098b6c26d249b63cc

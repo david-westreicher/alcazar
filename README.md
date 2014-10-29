@@ -48,7 +48,8 @@ x x x x x x x
 
 ```
 
-![ScreenShot](http://david-westreicher.github.io/alcazar.png)
+![ScreenShot](https://david-westreicher.github.io/static/alcazar/alcazar.png)
+![Video](https://david-westreicher.github.io/static/alcazar/alcazar.gif)
 
 Puzzle-Format
 -----------
@@ -58,7 +59,7 @@ Puzzle-Format
 
 TODO
 -----------
-* fix one loop problem (find loops and add the negated form to the formula)
+* use threading to get instant feedback for big puzzles
 
 Version
 ----
