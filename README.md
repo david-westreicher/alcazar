@@ -2,6 +2,7 @@ AlcaSAT
 =========
 
 An [alcazar] solver using SAT-techniques
+Check out my [blog post](http://david-westreicher.github.io/2014/11/06/alcasat/) for more information.
 
 Requirements
 ----
@@ -15,10 +16,11 @@ What are SAT-techniques
 -----------
 Problems are encoded into [SAT]-formulas, which are then transformed into [CNF] and fed into a SAT-solver (in this case [minisat]).
 The SAT-solver finds assignments, which lets the formula evaluate to TRUE. These assignments are then decoded into the original problem domain.
+For more in-depth information check out my [blog post](http://david-westreicher.github.io/2014/11/06/alcasat/).
 
 Usage
 --------------
-* Command Line:
+
 
 ```
 make
@@ -48,8 +50,7 @@ x x x x x x x
 
 ```
 
-![ScreenShot](https://david-westreicher.github.io/static/alcazar/alcazar.png)
-![Video](https://david-westreicher.github.io/static/alcazar/alcazar.gif)
+![Video](https://david-westreicher.github.io/static/alcazar/demo.gif)
 
 Puzzle-Format
 -----------
