@@ -2,6 +2,7 @@ AlcaSAT
 =========
 
 An [alcazar] solver using SAT-techniques
+
 Check out my [blog post](http://david-westreicher.github.io/2014/11/06/alcasat/) for more information.
 
 Requirements
